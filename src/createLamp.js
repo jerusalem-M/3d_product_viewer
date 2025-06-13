@@ -4,32 +4,53 @@ export function createLamp(scene) {
   const lampGroup = new THREE.Group();
 
   // Base
-  const baseGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32);
-  const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x444444 });
-  const base = new THREE.Mesh(baseGeometry, baseMaterial);
+  const base = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32),
+    new THREE.MeshStandardMaterial({ color: 0x444444 })
+  );
   base.position.y = 0.15;
   base.name = "Lamp Base";
   lampGroup.add(base);
 
   // Pole
   const poleHeight = 2;
-  const poleGeometry = new THREE.CylinderGeometry(0.1, 0.2, poleHeight, 16);
-  const poleMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 });
-  const pole = new THREE.Mesh(poleGeometry, poleMaterial);
+  const pole = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.1, 0.2, poleHeight, 16),
+    new THREE.MeshStandardMaterial({ color: 0x888888 })
+  );
   pole.position.y = base.position.y + 0.2 + poleHeight / 2;
   pole.name = "Lamp Pole";
   lampGroup.add(pole);
 
-  // Lamp Head (cone)
-  const headGeometry = new THREE.ConeGeometry(0.6, 1, 32);
-  const headMaterial = new THREE.MeshStandardMaterial({ color: 0xffcc00 });
-  const head = new THREE.Mesh(headGeometry, headMaterial);
-
-  head.position.y = pole.position.y + poleHeight / 2 + 0.5; // Center of cone at top
+  // Cone Head
+  const head = new THREE.Mesh(
+    new THREE.ConeGeometry(0.6, 1, 32),
+    new THREE.MeshStandardMaterial({ color: 0xffcc00 })
+  );
+  head.position.y = pole.position.y + poleHeight / 2 + 0.5;
   head.name = "Lamp Head";
   lampGroup.add(head);
 
-  // Final lamp position
+  // Horizontal black lines (as thin cylinders)
+  const stripeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+
+  const stripe1 = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.5, 0.5, 0.01, 32),
+    stripeMaterial
+  );
+  stripe1.rotation.x = Math.PI / 2;
+  stripe1.position.y = head.position.y + 0.15;
+  lampGroup.add(stripe1);
+
+  const stripe2 = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.35, 0.35, 0.01, 32),
+    stripeMaterial
+  );
+  stripe2.rotation.x = Math.PI / 2;
+  stripe2.position.y = head.position.y - 0.15;
+  lampGroup.add(stripe2);
+
+  // Final position
   lampGroup.position.set(0, 0, 0);
   scene.add(lampGroup);
 }
