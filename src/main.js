@@ -23,7 +23,7 @@ enableInteraction(scene, camera, renderer);
 function animate() {
   requestAnimationFrame(animate);
   rotateCamera();
-  controls.update(); // Needed for auto-rotation
+  controls.update(); 
   renderer.render(scene, camera);
 }
 
