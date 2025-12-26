@@ -12,7 +12,7 @@ export function createLamp(scene) {
   base.name = "Lamp Base";
   lampGroup.add(base);
 
-  // Pole
+  
   const poleHeight = 2;
   const pole = new THREE.Mesh(
     new THREE.CylinderGeometry(0.1, 0.2, poleHeight, 16),
